@@ -18,7 +18,3 @@ config/icon="res://icon.svg"
 [dotnet]
 
 project/assembly_name="New Game Project"
-
-[rendering]
-
-renderer/rendering_method="mobile"

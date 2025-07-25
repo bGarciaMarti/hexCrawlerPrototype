@@ -1,0 +1,11 @@
+ea4bc82a6ad023ab7ee23ee620429895
+::res://::1753455784
+game.tscn::PackedScene::1374098976214151624::1753455730::0::1::::<><><>0<>0<><>::uid://dbepkhv4ja4qa::::res://textures/hex_128.png<>uid://cvf8ooqxt4q7d::::res://HexTileMap.cs
+HexTileMap.cs::CSharpScript::6259158395546480123::1753455717::0::1::::<>Node2D<><>0<>0<><>::
+icon.svg::CompressedTexture2D/CompressedTexture2D::5585904149778390298::1753452915::1753453001::1::::<><><>0<>0<>53f4f1c31dd71235ebbf076010a3dd89<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
+::res://godot photos/::1753453001
+hex_128.png::CompressedTexture2D/CompressedTexture2D::5816801162340797570::1753452915::1753453001::1::::<><><>0<>0<>eac987ff4f814f4010a0e8b7602d1d13<>res://.godot/imported/hex_128.png-24648065d7d3fc9157df5e24ab9faf27.ctex::
+hex_128_transparent.png::CompressedTexture2D/CompressedTexture2D::2842631683727365951::1753452915::1753453001::1::::<><><>0<>0<>ab19229e3a53fd43b320c752bad314a1<>res://.godot/imported/hex_128_transparent.png-69e4514544e35b0f7271466b27053041.ctex::
+hex_correct size.png::CompressedTexture2D/CompressedTexture2D::2142407015025303161::1753452915::1753453001::1::::<><><>0<>0<>b991bce45897d7bffc52516f4ea4283e<>res://.godot/imported/hex_correct size.png-d7d017aa185cf9c0773d472945b24546.ctex::
+::res://textures/::1753453001
+hex_128.png::CompressedTexture2D/CompressedTexture2D::7238637419998152708::1753452915::1753453001::1::::<><><>0<>0<>4af5c02fa71d6393e31a44c3759a59b3<>res://.godot/imported/hex_128.png-48003d0b5fb515733ac194c50519e39d.ctex::

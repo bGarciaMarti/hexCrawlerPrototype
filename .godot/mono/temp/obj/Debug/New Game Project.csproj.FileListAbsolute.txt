@@ -1,0 +1,18 @@
+/Users/Secondary/repos/hexCrawlerPrototype/.godot/mono/temp/bin/Debug/New Game Project.deps.json
+/Users/Secondary/repos/hexCrawlerPrototype/.godot/mono/temp/bin/Debug/New Game Project.runtimeconfig.json
+/Users/Secondary/repos/hexCrawlerPrototype/.godot/mono/temp/bin/Debug/New Game Project.dll
+/Users/Secondary/repos/hexCrawlerPrototype/.godot/mono/temp/bin/Debug/New Game Project.pdb
+/Users/Secondary/repos/hexCrawlerPrototype/.godot/mono/temp/bin/Debug/GodotSharp.dll
+/Users/Secondary/repos/hexCrawlerPrototype/.godot/mono/temp/bin/Debug/GodotSharpEditor.dll
+/Users/Secondary/repos/hexCrawlerPrototype/.godot/mono/temp/obj/Debug/New Game Project.csproj.AssemblyReference.cache
+/Users/Secondary/repos/hexCrawlerPrototype/.godot/mono/temp/obj/Debug/New Game Project.GeneratedMSBuildEditorConfig.editorconfig
+/Users/Secondary/repos/hexCrawlerPrototype/.godot/mono/temp/obj/Debug/New Game Project.AssemblyInfoInputs.cache
+/Users/Secondary/repos/hexCrawlerPrototype/.godot/mono/temp/obj/Debug/New Game Project.AssemblyInfo.cs
+/Users/Secondary/repos/hexCrawlerPrototype/.godot/mono/temp/obj/Debug/New Game Project.csproj.CoreCompileInputs.cache
+/Users/Secondary/repos/hexCrawlerPrototype/.godot/mono/temp/obj/Debug/New Game Project.sourcelink.json
+/Users/Secondary/repos/hexCrawlerPrototype/.godot/mono/temp/obj/Debug/New Game.D781FC22.Up2Date
+/Users/Secondary/repos/hexCrawlerPrototype/.godot/mono/temp/obj/Debug/New Game Project.dll
+/Users/Secondary/repos/hexCrawlerPrototype/.godot/mono/temp/obj/Debug/refint/New Game Project.dll
+/Users/Secondary/repos/hexCrawlerPrototype/.godot/mono/temp/obj/Debug/New Game Project.pdb
+/Users/Secondary/repos/hexCrawlerPrototype/.godot/mono/temp/obj/Debug/New Game Project.genruntimeconfig.cache
+/Users/Secondary/repos/hexCrawlerPrototype/.godot/mono/temp/obj/Debug/ref/New Game Project.dll
