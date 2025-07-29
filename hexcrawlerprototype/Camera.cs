@@ -3,6 +3,7 @@ using System;
 
 public partial class Camera : Camera2D
 {
+<<<<<<< HEAD
 
   [Export]
   int velocity = 15;
@@ -38,10 +39,22 @@ public partial class Camera : Camera2D
 	if (Input.IsActionPressed("map_right") && this.Position.X < rightBound)
 	{
 	  this.Position += new Vector2(velocity, 0);
+=======
+	[Export]
+	int velocity =15;
+	
+	[Export]
+	float zoom_speed = 0.05f;
+	
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
+	{
+>>>>>>> parent of 4045a36 (camera: zoo &, boundries)
 	}
 
 	if (Input.IsActionPressed("map_left") && this.Position.X > leftBound)
 	{
+<<<<<<< HEAD
 	  this.Position += new Vector2(-velocity, 0);
 	}
 
@@ -81,4 +94,20 @@ public partial class Camera : Camera2D
 	  mouseWheelScrollingDown = false;
 
   }
+=======
+		//Map controls
+		if (Input.IsActionPressed("map_right")){
+			this.Position += new Vector2(velocity, 0);
+		}
+		if (Input.IsActionPressed("map_left")){
+			this.Position += new Vector2(-velocity, 0);
+		}
+		if (Input.IsActionPressed("map_up")){
+			this.Position += new Vector2(0, -velocity);
+		}
+		if (Input.IsActionPressed("map_down")){
+			this.Position += new Vector2(0, velocity);
+		}
+	}
+>>>>>>> parent of 4045a36 (camera: zoo &, boundries)
 }

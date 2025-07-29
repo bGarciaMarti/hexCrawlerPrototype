@@ -64,7 +64,10 @@ public partial class HexTileMap : Node2D
 			}
 		}
 	}
+<<<<<<< HEAD
 	public Vector2 MapToLocal(Vector2I coords) {
 	return baseLayer.MapToLocal(coords);
   }  
+=======
+>>>>>>> parent of 4045a36 (camera: zoo &, boundries)
 }

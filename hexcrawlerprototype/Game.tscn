@@ -54,3 +54,7 @@ tile_set = SubResource("TileSet_3mrqo")
 occlusion_enabled = false
 
 [node name="Camera2D" type="Camera2D" parent="."]
+<<<<<<< HEAD
+=======
+script = ExtResource("4_sb48q")
+>>>>>>> parent of 4045a36 (camera: zoo &, boundries)
