@@ -1,9 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://bntmn0o37dho4"]
+[gd_scene load_steps=9 format=3 uid="uid://bntmn0o37dho4"]
 
 [ext_resource type="Script" uid="uid://ma1kpffkpvs1" path="res://HexTileMap.cs" id="1_xkndl"]
 [ext_resource type="Texture2D" uid="uid://bvr47pul0gg1c" path="res://textures/hex_128.png" id="2_u44n3"]
 [ext_resource type="Texture2D" uid="uid://bb7m0ubtjopkx" path="res://textures/hex_overlays.png" id="3_u44n3"]
-[ext_resource type="Script" uid="uid://liw2dd5db2w2" path="res://Camera.cs" id="4_sb48q"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sb48q"]
 texture = ExtResource("2_u44n3")
@@ -55,6 +54,3 @@ tile_set = SubResource("TileSet_3mrqo")
 occlusion_enabled = false
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position_smoothing_enabled = true
-position_smoothing_speed = 10.0
-script = ExtResource("4_sb48q")

@@ -1,5 +1,18 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+
+public enum TerrainType{ SETTLEMENT, MOUNTAIN, PLAINS, FOREST, WATER, FARMLAND, MIST, HILLS}
+
+// represent a hex in game
+public class Hex {
+	public readonly Vector2I coordinates;
+	public TerrainType terrainType;
+	
+	public Hex(Vector2I coords) {
+		this.coordinates = coords;
+	}
+}
 
 public partial class HexTileMap : Node2D
 {
@@ -11,11 +24,27 @@ public partial class HexTileMap : Node2D
 	
 	TileMapLayer baseLayer, borderLayer, overlayLayer;
 	
+	Dictionary<Vector2I, Hex> mapData;
+	Dictionary<TerrainType, Vector2I> terrainTextures;
+	
 	// Called when the node enters the scene tree for first time.
 	public override void _Ready(){
 		baseLayer = GetNode<TileMapLayer>("BaseLayer");
 		borderLayer = GetNode<TileMapLayer>("HexBordersLayer");
 		overlayLayer = GetNode<TileMapLayer>("SelectionOverlayLayer");
+		
+		mapData = new Dictionary< Vector2I, Hex>(); // init map data
+		terrainTextures = new Dictionary<TerrainType, Vector2I> {
+			{TerrainType.SETTLEMENT, new Vector2I(0,0)	},
+			{TerrainType.MOUNTAIN, new Vector2I(1,0)	},
+			{TerrainType.PLAINS, new Vector2I(2,0)	},
+			{TerrainType.FOREST, new Vector2I(3,0)	},
+
+			{TerrainType.FARMLAND, new Vector2I(0,1)	},
+			{TerrainType.WATER, new Vector2I(1,1)	},
+			{TerrainType.MIST, new Vector2I(2,1)	},
+			{TerrainType.HILLS, new Vector2I(3,1)	}
+		};
 		
 		GenerateTerrain();
 	}
