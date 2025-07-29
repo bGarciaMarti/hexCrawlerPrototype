@@ -1,0 +1,52 @@
+[gd_scene load_steps=9 format=3 uid="uid://c70hhnmd21ncb"]
+
+[ext_resource type="Texture2D" uid="uid://cysr3ayavcvlp" path="res://textures/hex_128.png" id="1_e2o6t"]
+[ext_resource type="Script" uid="uid://co07b3t3dl7xt" path="res://HexTileMap.cs" id="1_feb5d"]
+[ext_resource type="Texture2D" uid="uid://bnx5tmkpxn4mo" path="res://textures/hex_overlays.png" id="2_feb5d"]
+[ext_resource type="Script" uid="uid://d4gdo0tieejsl" path="res://Camera.cs" id="4_fc0e3"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_feb5d"]
+texture = ExtResource("1_e2o6t")
+texture_region_size = Vector2i(128, 128)
+0:0/0 = 0
+1:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_fc0e3"]
+tile_shape = 3
+tile_size = Vector2i(128, 128)
+sources/0 = SubResource("TileSetAtlasSource_feb5d")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7jktm"]
+texture = ExtResource("2_feb5d")
+texture_region_size = Vector2i(128, 128)
+0:0/0 = 0
+0:1/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_ryrav"]
+tile_shape = 3
+tile_size = Vector2i(128, 128)
+sources/0 = SubResource("TileSetAtlasSource_7jktm")
+
+[node name="Game" type="Node"]
+
+[node name="HexTileMap" type="Node2D" parent="."]
+script = ExtResource("1_feb5d")
+
+[node name="BaseLayer" type="TileMapLayer" parent="HexTileMap"]
+tile_set = SubResource("TileSet_fc0e3")
+collision_enabled = false
+
+[node name="HexBordersLayer" type="TileMapLayer" parent="HexTileMap"]
+tile_set = SubResource("TileSet_ryrav")
+collision_enabled = false
+
+[node name="SelectionOverlayLayer" type="TileMapLayer" parent="HexTileMap"]
+
+[node name="Camera" type="Camera2D" parent="."]
+script = ExtResource("4_fc0e3")
