@@ -34,4 +34,8 @@ public partial class HexTileMap : Node2D
 			}
 		}
 	}
+		// convert tile location to 2D word coordinates relative to the TileMap object
+	public Vector2 MapToLocal(Vector2I coords) {
+		return baseLayer.MapToLocal(coords);
+	}
 }
