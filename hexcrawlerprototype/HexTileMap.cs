@@ -16,6 +16,12 @@ public class Hex
 	this.coordinates = coords;
   }
 
+	// interactivity
+   public override string ToString()
+   {
+	   return $"Coordinates: ({this.coordinates.X}, {this.coordinates.Y}. Terrain type: {this.terrainType})";
+   }
+
 }
 
 public partial class HexTileMap : Node2D
@@ -57,6 +63,31 @@ public partial class HexTileMap : Node2D
 
   }
 
+// interactivity
+// if input has not already been consumed by another element
+
+Vector2I currentSelectedCell = new Vector2I(-1, -1);
+	public override void _UnhandledInput(InputEvent @event)
+	{
+		if (@event is InputEventMouseButton mouse) {
+	  Vector2I mapCoords = baseLayer.LocalToMap(ToLocal(GetGlobalMousePosition()));
+	  if (mapCoords.X >= 0 && mapCoords.X < width && mapCoords.Y >= 0 && mapCoords.Y < height) // keep click in bounds of the map
+	  {
+		Hex h = mapData[mapCoords];
+		if (mouse.ButtonMask == MouseButtonMask.Left)
+		{ GD.Print(mapData[mapCoords]);
+			 //SendHexData?.Invoke(h);
+		  if (mapCoords != currentSelectedCell) overlayLayer.SetCell(currentSelectedCell, -1);
+		  overlayLayer.SetCell(mapCoords, 0, new Vector2I(0, 1));
+		  currentSelectedCell = mapCoords;
+		}
+	  } else {
+		overlayLayer.SetCell(currentSelectedCell, -1);
+		// EmitSignal(SignalName.ClickOffMap);
+	  }
+	
+	}
+	}
   public void GenerateTerrain()
   {
 	float[,] noiseMap = new float[width, height];
