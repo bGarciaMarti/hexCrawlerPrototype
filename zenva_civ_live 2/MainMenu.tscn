@@ -1,0 +1,96 @@
+[gd_scene load_steps=4 format=3 uid="uid://buc2b84yryw7s"]
+
+[ext_resource type="Texture2D" uid="uid://torm6jbw5pb0" path="res://textures/menubg.png" id="1_74p5m"]
+[ext_resource type="Script" path="res://MainMenu.cs" id="1_647w4"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_4yqwo"]
+font_size = 48
+font_color = Color(0.822653, 0.623786, 0.279157, 1)
+shadow_size = 5
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(2, 1)
+
+[node name="MainMenu" type="Node2D"]
+script = ExtResource("1_647w4")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0.12038, 0.239802, 0.400029, 1)
+polygon = PackedVector2Array(0, 0, 1152, 0, 1152, 648, 0, 648)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.156863)
+position = Vector2(610, 300)
+scale = Vector2(0.373177, 0.372454)
+texture = ExtResource("1_74p5m")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 260.0
+offset_top = 29.0
+offset_right = 915.0
+offset_bottom = 114.0
+text = "HEX-BASED STRATEGY GAME"
+label_settings = SubResource("LabelSettings_4yqwo")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 367.0
+offset_top = 134.0
+offset_right = 739.0
+offset_bottom = 546.0
+theme_override_constants/separation = 25
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Map Width"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+min_value = 44.0
+max_value = 106.0
+value = 44.0
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Map Height"
+
+[node name="SpinBox2" type="SpinBox" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+min_value = 26.0
+max_value = 66.0
+value = 26.0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Number of AI"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 6.0
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Player Color"
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Start Game"
+
+[node name="Button2" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[connection signal="pressed" from="VBoxContainer/Button" to="." method="Start"]
+[connection signal="pressed" from="VBoxContainer/Button2" to="." method="Quit"]

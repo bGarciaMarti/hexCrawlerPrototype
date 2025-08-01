@@ -1,0 +1,103 @@
+[gd_scene load_steps=6 format=3 uid="uid://crqajdxj7f3eo"]
+
+[ext_resource type="Texture2D" uid="uid://daihhcdq1bskb" path="res://textures/city_painting.jpg" id="1_2wmuf"]
+[ext_resource type="Script" path="res://CityUI.cs" id="1_5mijc"]
+[ext_resource type="PackedScene" uid="uid://bvu5l0jj0p77l" path="res://UnitBuildButton.tscn" id="3_fanlx"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_v2kxn"]
+font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_asvup"]
+font_size = 20
+
+[node name="CityUi" type="Panel"]
+offset_right = 250.0
+offset_bottom = 648.0
+script = ExtResource("1_5mijc")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 250.0
+offset_bottom = 160.0
+texture = ExtResource("1_2wmuf")
+expand_mode = 1
+
+[node name="CityName" type="Label" parent="."]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 164.0
+offset_right = 131.0
+offset_bottom = 198.0
+text = "City Name"
+label_settings = SubResource("LabelSettings_v2kxn")
+
+[node name="Population" type="Label" parent="."]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 203.0
+offset_right = 104.0
+offset_bottom = 226.0
+text = "Population: "
+
+[node name="Food" type="Label" parent="."]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 230.0
+offset_right = 58.0
+offset_bottom = 253.0
+text = "Food: "
+
+[node name="Production" type="Label" parent="."]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 252.0
+offset_right = 105.0
+offset_bottom = 275.0
+text = "Production: "
+
+[node name="BuildLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 312.0
+offset_right = 61.0
+offset_bottom = 340.0
+text = "Build"
+label_settings = SubResource("LabelSettings_asvup")
+
+[node name="UnitBuildButtons" type="ScrollContainer" parent="."]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 344.0
+offset_right = 238.0
+offset_bottom = 433.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UnitBuildButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SettlerButton" parent="UnitBuildButtons/VBoxContainer" instance=ExtResource("3_fanlx")]
+layout_mode = 2
+text = "Settler"
+
+[node name="WarriorButton" parent="UnitBuildButtons/VBoxContainer" instance=ExtResource("3_fanlx")]
+layout_mode = 2
+text = "Warrior"
+
+[node name="QueueLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 439.0
+offset_right = 74.0
+offset_bottom = 467.0
+text = "Queue"
+label_settings = SubResource("LabelSettings_asvup")
+
+[node name="QueueContainer" type="ScrollContainer" parent="."]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 476.0
+offset_right = 236.0
+offset_bottom = 565.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="QueueContainer"]
+layout_mode = 2

@@ -1,0 +1,17 @@
+E:\GodotProjects\zenva_civ_live\.godot\mono\temp\bin\Debug\zenva_civ_LIVE.deps.json
+E:\GodotProjects\zenva_civ_live\.godot\mono\temp\bin\Debug\zenva_civ_LIVE.runtimeconfig.json
+E:\GodotProjects\zenva_civ_live\.godot\mono\temp\bin\Debug\zenva_civ_LIVE.dll
+E:\GodotProjects\zenva_civ_live\.godot\mono\temp\bin\Debug\zenva_civ_LIVE.pdb
+E:\GodotProjects\zenva_civ_live\.godot\mono\temp\bin\Debug\GodotSharp.dll
+E:\GodotProjects\zenva_civ_live\.godot\mono\temp\bin\Debug\GodotSharpEditor.dll
+E:\GodotProjects\zenva_civ_live\.godot\mono\temp\obj\Debug\zenva_civ_LIVE.csproj.AssemblyReference.cache
+E:\GodotProjects\zenva_civ_live\.godot\mono\temp\obj\Debug\zenva_civ_LIVE.GeneratedMSBuildEditorConfig.editorconfig
+E:\GodotProjects\zenva_civ_live\.godot\mono\temp\obj\Debug\zenva_civ_LIVE.AssemblyInfoInputs.cache
+E:\GodotProjects\zenva_civ_live\.godot\mono\temp\obj\Debug\zenva_civ_LIVE.AssemblyInfo.cs
+E:\GodotProjects\zenva_civ_live\.godot\mono\temp\obj\Debug\zenva_civ_LIVE.csproj.CoreCompileInputs.cache
+E:\GodotProjects\zenva_civ_live\.godot\mono\temp\obj\Debug\zenva_civ_LIVE.dll
+E:\GodotProjects\zenva_civ_live\.godot\mono\temp\obj\Debug\refint\zenva_civ_LIVE.dll
+E:\GodotProjects\zenva_civ_live\.godot\mono\temp\obj\Debug\zenva_civ_LIVE.pdb
+E:\GodotProjects\zenva_civ_live\.godot\mono\temp\obj\Debug\zenva_civ_LIVE.genruntimeconfig.cache
+E:\GodotProjects\zenva_civ_live\.godot\mono\temp\obj\Debug\ref\zenva_civ_LIVE.dll
+E:\GodotProjects\zenva_civ_live\.godot\mono\temp\obj\Debug\zenva_ci.DF14BB07.Up2Date

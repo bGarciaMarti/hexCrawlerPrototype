@@ -1,0 +1,59 @@
+[gd_scene load_steps=4 format=3 uid="uid://bnly1cns0rowu"]
+
+[ext_resource type="Script" path="res://UnitUI.cs" id="1_6rqqr"]
+[ext_resource type="Texture2D" uid="uid://bb47wpuv22p0o" path="res://textures/settler_image.png" id="1_cuc6n"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_n1r1t"]
+font_size = 20
+
+[node name="UnitUi" type="Panel"]
+offset_right = 250.0
+offset_bottom = 400.0
+script = ExtResource("1_6rqqr")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 250.0
+offset_bottom = 160.0
+texture = ExtResource("1_cuc6n")
+expand_mode = 1
+
+[node name="UnitTypeLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 165.0
+offset_right = 89.0
+offset_bottom = 188.0
+text = "Unit Type: "
+
+[node name="MovesLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 219.0
+offset_right = 89.0
+offset_bottom = 242.0
+text = "Moves:"
+
+[node name="HealthLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 192.0
+offset_right = 89.0
+offset_bottom = 215.0
+text = "HP: "
+
+[node name="ActionsTitle" type="Label" parent="."]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 251.0
+offset_right = 90.0
+offset_bottom = 279.0
+text = "Actions"
+label_settings = SubResource("LabelSettings_n1r1t")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 281.0
+offset_right = 238.0
+offset_bottom = 391.0
