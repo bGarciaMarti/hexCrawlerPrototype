@@ -1,5 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://c70hhnmd21ncb"]
+[gd_scene load_steps=10 format=3 uid="uid://c70hhnmd21ncb"]
 
+[ext_resource type="Script" uid="uid://bnpqxjqn6cpll" path="res://Game.cs" id="1_7jktm"]
 [ext_resource type="Texture2D" uid="uid://cysr3ayavcvlp" path="res://textures/hex_128.png" id="1_e2o6t"]
 [ext_resource type="Script" uid="uid://co07b3t3dl7xt" path="res://HexTileMap.cs" id="1_feb5d"]
 [ext_resource type="Texture2D" uid="uid://bnx5tmkpxn4mo" path="res://textures/hex_overlays.png" id="2_feb5d"]
@@ -34,6 +35,7 @@ tile_size = Vector2i(128, 128)
 sources/0 = SubResource("TileSetAtlasSource_7jktm")
 
 [node name="Game" type="Node"]
+script = ExtResource("1_7jktm")
 
 [node name="HexTileMap" type="Node2D" parent="."]
 script = ExtResource("1_feb5d")
