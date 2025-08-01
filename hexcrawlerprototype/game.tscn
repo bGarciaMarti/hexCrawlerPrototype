@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://c70hhnmd21ncb"]
+[gd_scene load_steps=11 format=3 uid="uid://c70hhnmd21ncb"]
 
 [ext_resource type="Texture2D" uid="uid://cysr3ayavcvlp" path="res://textures/hex_128.png" id="1_e2o6t"]
 [ext_resource type="Script" uid="uid://co07b3t3dl7xt" path="res://HexTileMap.cs" id="1_feb5d"]
@@ -33,6 +33,17 @@ tile_shape = 3
 tile_size = Vector2i(128, 128)
 sources/0 = SubResource("TileSetAtlasSource_7jktm")
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fc0e3"]
+texture = ExtResource("2_feb5d")
+texture_region_size = Vector2i(128, 128)
+0:0/0 = 0
+0:1/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_7jktm"]
+tile_shape = 3
+tile_size = Vector2i(128, 128)
+sources/1 = SubResource("TileSetAtlasSource_fc0e3")
+
 [node name="Game" type="Node"]
 
 [node name="HexTileMap" type="Node2D" parent="."]
@@ -43,10 +54,13 @@ tile_set = SubResource("TileSet_fc0e3")
 collision_enabled = false
 
 [node name="HexBordersLayer" type="TileMapLayer" parent="HexTileMap"]
+modulate = Color(1, 1, 1, 0.156863)
 tile_set = SubResource("TileSet_ryrav")
 collision_enabled = false
 
 [node name="SelectionOverlayLayer" type="TileMapLayer" parent="HexTileMap"]
+tile_set = SubResource("TileSet_7jktm")
+collision_enabled = false
 
 [node name="Camera" type="Camera2D" parent="."]
 script = ExtResource("4_fc0e3")
