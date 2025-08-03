@@ -9,17 +9,27 @@
 texture = ExtResource("1_e2o6t")
 texture_region_size = Vector2i(128, 128)
 0:0/0 = 0
+0:0/0/custom_data_0 = "SETTLEMENT"
 1:0/0 = 0
+1:0/0/custom_data_0 = "FARMLAND"
 0:1/0 = 0
+0:1/0/custom_data_0 = "MOUNTAIN"
 1:1/0 = 0
+1:1/0/custom_data_0 = "WATER"
 0:2/0 = 0
+0:2/0/custom_data_0 = "PLAINS"
 1:2/0 = 0
+1:2/0/custom_data_0 = "MIST"
 0:3/0 = 0
+0:3/0/custom_data_0 = "FOREST"
 1:3/0 = 0
+1:3/0/custom_data_0 = "HILLS"
 
 [sub_resource type="TileSet" id="TileSet_fc0e3"]
 tile_shape = 3
 tile_size = Vector2i(128, 128)
+custom_data_layer_0/name = "TerrainType"
+custom_data_layer_0/type = 4
 sources/0 = SubResource("TileSetAtlasSource_feb5d")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7jktm"]

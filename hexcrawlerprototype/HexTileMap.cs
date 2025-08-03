@@ -26,9 +26,9 @@ public class Hex
 public partial class HexTileMap : Node2D
 {
   [Export]
-  public int width = 45;
+  public int width = 51; //50
   [Export]
-  public int height = 50;
+  public int height = 46; //45
 
   // Map data
   TileMapLayer baseLayer, borderLayer, overlayLayer;
@@ -83,7 +83,11 @@ public override void _Process(double delta) {
 	for (int x = 0; x < width; x++) {
 	  for (int y = 0; y < height; y++) {
 		// baseLayer.SetCell(new Vector2I(x, y), 0, new Vector2I(0, 0));
+		Hex h = new Hex(new Vector2I(x,y));
+		// if (the Hex(x,y) custom_data_layer TerrainType == terrainTextures TerrainType.SETTLEMENT)
+		// h.terrainType = terrainTextures TerrainTypeddds
 
+		mapData[new Vector2I(x,y)] = h;
 		// Set tile borders
 		borderLayer.SetCell(new Vector2I(x, y), 0, new Vector2I(0, 0));
 	  } }
