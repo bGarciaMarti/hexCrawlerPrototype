@@ -39,6 +39,9 @@ public partial class HexTileMap : Node2D
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
   {
+	var myGDScript = GD.Load<GDScript>("res://hex_tile_map.gd");
+  	var myGDScriptNode = (GodotObject)myGDScript.New(); // This is a GodotObject.
+
 	baseLayer = GetNode<TileMapLayer>("BaseLayer");
 	borderLayer = GetNode<TileMapLayer>("HexBordersLayer");
 	overlayLayer = GetNode<TileMapLayer>("SelectionOverlayLayer");
@@ -92,7 +95,7 @@ public override void _Process(double delta) {
 
 //Get Access to Custom Tile Data
 Vector2I _tileMapPos = new Vector2I(x,y);
-Vector2I _tileSetAtlasPos = GetCellAtlasCoords(0, (Vector2I)_tileMapPos);
+Vector2I _tileSetAtlasPos = get_cell_atlas_coords(0, (Vector2I)_tileMapPos);// Vector2I _tileSetAtlasPos = GetCellAtlasCoords(0, (Vector2I)_tileMapPos);
 int _tileCellSourceID = GetCellSourceId(0, (Vector2I)_tileMapPos);
 if (_tileCellSourceID != -1)
 {

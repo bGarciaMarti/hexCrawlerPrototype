@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=4 uid="uid://c70hhnmd21ncb"]
 
 [ext_resource type="Texture2D" uid="uid://cysr3ayavcvlp" path="res://textures/hex_128.png" id="1_e2o6t"]
-[ext_resource type="Script" uid="uid://co07b3t3dl7xt" path="res://HexTileMap.cs" id="1_feb5d"]
+[ext_resource type="Script" uid="uid://cd1o3rx770p3i" path="res://hex_tile_map.gd" id="1_fc0e3"]
 [ext_resource type="Texture2D" uid="uid://bnx5tmkpxn4mo" path="res://textures/hex_overlays.png" id="2_feb5d"]
 [ext_resource type="Script" uid="uid://d4gdo0tieejsl" path="res://Camera.cs" id="4_fc0e3"]
 
@@ -57,7 +57,7 @@ sources/1 = SubResource("TileSetAtlasSource_fc0e3")
 [node name="Game" type="Node"]
 
 [node name="HexTileMap" type="Node2D" parent="."]
-script = ExtResource("1_feb5d")
+script = ExtResource("1_fc0e3")
 
 [node name="BaseLayer" type="TileMapLayer" parent="HexTileMap"]
 position = Vector2(0, 1)
