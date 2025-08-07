@@ -95,7 +95,7 @@ public override void _Process(double delta) {
 
 //Get Access to Custom Tile Data
 Vector2I _tileMapPos = new Vector2I(x,y);
-Vector2I _tileSetAtlasPos = get_cell_atlas_coords(0, (Vector2I)_tileMapPos);// Vector2I _tileSetAtlasPos = GetCellAtlasCoords(0, (Vector2I)_tileMapPos);
+Vector2I _tileSetAtlasPos = GetCellAtlasCoords(0, (Vector2I)_tileMapPos);
 int _tileCellSourceID = GetCellSourceId(0, (Vector2I)_tileMapPos);
 if (_tileCellSourceID != -1)
 {
