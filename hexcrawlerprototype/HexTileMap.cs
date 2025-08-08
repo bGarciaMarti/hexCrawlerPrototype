@@ -32,7 +32,7 @@ public partial class HexTileMap : Node2D
 
   // Map data
   TileMapLayer baseLayer, borderLayer, overlayLayer;
-
+  TileSet sillyTileSet;
   Dictionary<Vector2I, Hex> mapData;
   Dictionary<TerrainType, Vector2I> terrainTextures;
 
@@ -95,11 +95,10 @@ public override void _Process(double delta) {
 
 //Get Access to Custom Tile Data
 Vector2I _tileMapPos = new Vector2I(x,y);
-Vector2I _tileSetAtlasPos = GetCellAtlasCoords(0, (Vector2I)_tileMapPos);
-int _tileCellSourceID = GetCellSourceId(0, (Vector2I)_tileMapPos);
+Vector2I _tileSetAtlasPos = baseLayer.GetCellAtlasCoords(_tileMapPos);
+int _tileCellSourceID = baseLayer.GetCellSourceId((Vector2I)_tileMapPos);
 if (_tileCellSourceID != -1)
-{
-	TileSetAtlasSource _tileSource = (TileSetAtlasSource)TileSet.GetSource(_tileCellSourceID);
+{	TileSetAtlasSource _tileSource = (TileSetAtlasSource)sillyTileSet.GetSource(_tileCellSourceID);
 	var _tileData = _tileSource.GetTileData(_tileSetAtlasPos, 0);
 }  
 
