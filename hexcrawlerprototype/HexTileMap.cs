@@ -31,6 +31,17 @@ public partial class HexTileMap : Node2D
   // Map data
   TileMapLayer baseLayer, borderLayer, overlayLayer;
   Dictionary<Vector2I, Hex> mapData;
+	terrainTextures = new Dictionary<TerrainType, Vector2I>
+	{
+	  { TerrainType.PLAINS, new Vector2I(0, 0) },
+	  { TerrainType.WATER, new Vector2I(1, 0) },
+	  { TerrainType.DESERT, new Vector2I(0, 1)},
+	  { TerrainType.MOUNTAIN, new Vector2I(1, 1)},
+	  { TerrainType.SHALLOW_WATER, new Vector2I(1, 2)},
+	  { TerrainType.BEACH, new Vector2I(0, 2)},
+	  { TerrainType.FOREST, new Vector2I(1, 3)},
+	  { TerrainType.ICE, new Vector2I(0, 3)},
+	};
 
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
@@ -70,6 +81,8 @@ public override void _Process(double delta) {
 		Hex h = new Hex(new Vector2I(x, y));
 		baseLayer.SetCell(new Vector2I(x, y), 0, new Vector2I(0, 0));
 		mapData[new Vector2I(x, y)] = h;
+
+		// h.terrainType = TerrainType.SETTLEMENT;
 
 		// Set tile borders
 		borderLayer.SetCell(new Vector2I(x, y), 0, new Vector2I(0, 0));
