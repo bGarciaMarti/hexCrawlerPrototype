@@ -31,17 +31,7 @@ public partial class HexTileMap : Node2D
   // Map data
   TileMapLayer baseLayer, borderLayer, overlayLayer;
   Dictionary<Vector2I, Hex> mapData;
-	terrainTextures = new Dictionary<TerrainType, Vector2I>
-	{
-	  { TerrainType.PLAINS, new Vector2I(0, 0) },
-	  { TerrainType.WATER, new Vector2I(1, 0) },
-	  { TerrainType.DESERT, new Vector2I(0, 1)},
-	  { TerrainType.MOUNTAIN, new Vector2I(1, 1)},
-	  { TerrainType.SHALLOW_WATER, new Vector2I(1, 2)},
-	  { TerrainType.BEACH, new Vector2I(0, 2)},
-	  { TerrainType.FOREST, new Vector2I(1, 3)},
-	  { TerrainType.ICE, new Vector2I(0, 3)},
-	};
+  Dictionary<TerrainType, Vector2I> terrainTextures;
 
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
@@ -52,7 +42,18 @@ public partial class HexTileMap : Node2D
 
 	// Initialize map data
 	mapData = new Dictionary<Vector2I, Hex>();
-
+	terrainTextures = new Dictionary<TerrainType, Vector2I>
+	{
+	  { TerrainType.SETTLEMENT, new Vector2I(0, 0) },
+	  { TerrainType.MOUNTAIN, new Vector2I(0, 1) },
+	  { TerrainType.FARMLAND, new Vector2I(1, 0)},
+	  { TerrainType.WATER, new Vector2I(1, 1)},
+	  { TerrainType.MIST, new Vector2I(1, 2)},
+	  { TerrainType.PLAINS, new Vector2I(0, 2)},
+	  { TerrainType.HILLS, new Vector2I(1, 3)},
+	  { TerrainType.FOREST, new Vector2I(0, 3)},
+	};
+	
 	GenerateTerrain();
   }
 
@@ -69,20 +70,41 @@ public override void _UnhandledInput(InputEvent @event)
 	}
 }
 
-
-public override void _Process(double delta) {
-	
-}
+public override void _Process(double delta) { }
 
   public void GenerateTerrain()
   {
 	for (int x = 0; x < width; x++) {
 	  for (int y = 0; y < height; y++) {
 		Hex h = new Hex(new Vector2I(x, y));
-		baseLayer.SetCell(new Vector2I(x, y), 0, new Vector2I(0, 0));
+		baseLayer.SetCell(new Vector2I(x, y), 0, new Vector2I(0, 3));
 		mapData[new Vector2I(x, y)] = h;
-
-		// h.terrainType = TerrainType.SETTLEMENT;
+		
+		Vector2I _tileSetAtlasPos = baseLayer.GetCellAtlasCoords(new Vector2I(x, y));
+		if (_tileSetAtlasPos == terrainTextures[TerrainType.SETTLEMENT]) {
+			h.terrainType = TerrainType.SETTLEMENT;
+		} else if (_tileSetAtlasPos == terrainTextures[TerrainType.MOUNTAIN]) {
+			h.terrainType = TerrainType.MOUNTAIN;
+		} else if (_tileSetAtlasPos == terrainTextures[TerrainType.PLAINS]) {
+			h.terrainType = TerrainType.PLAINS;
+		} else if (_tileSetAtlasPos == terrainTextures[TerrainType.FOREST]) {
+			h.terrainType = TerrainType.FOREST;
+		} else if (_tileSetAtlasPos == terrainTextures[TerrainType.FARMLAND]) {
+			h.terrainType = TerrainType.FARMLAND;
+		} else if (_tileSetAtlasPos == terrainTextures[TerrainType.WATER]) {
+			h.terrainType = TerrainType.WATER;
+		} else if (_tileSetAtlasPos == terrainTextures[TerrainType.MIST]) {
+			h.terrainType = TerrainType.MIST;
+		} else if (_tileSetAtlasPos == terrainTextures[TerrainType.HILLS]) {
+			h.terrainType = TerrainType.HILLS;
+		}
+		
+		// int _tileCellSourceID = baseLayer.GetCellSourceId(new Vector2I(x, y));
+		// if (_tileCellSourceID != -1) {
+			// var tile = baseLayer.GetCellTileData(_tileSetAtlasPos);
+			// if (IsInstanceValid(tile))
+				// GD.Print(tile.GetCustomData("TerrainType"));
+			// }
 
 		// Set tile borders
 		borderLayer.SetCell(new Vector2I(x, y), 0, new Vector2I(0, 0));
