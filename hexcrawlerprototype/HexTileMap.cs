@@ -62,10 +62,14 @@ public partial class HexTileMap : Node2D
 
 Vector2I currentSelectedCell = new Vector2I(-1, -1);
 public override void _UnhandledInput(InputEvent @event)
-{	if (@event is InputEventMouseButton mouse) {
+{	if (@event is InputEventMouseButton mouse) 
+	{
 	Vector2I mapCoords = baseLayer.LocalToMap(ToLocal(GetGlobalMousePosition()));
 	if (mapCoords.X >= 0 && mapCoords.X < width && mapCoords.Y >= 0 && mapCoords.Y < height) {// keep click in bounds of the map
-		GD.Print(mapData[mapCoords]);
+		if (mouse.ButtonMask == MouseButtonMask.Left) {
+				GD.Print(mapData[mapCoords]);
+				overlayLayer.SetCell(mapCoords, 0, new Vector2I(0, 1));
+			}
 		}
 	}
 }
@@ -104,7 +108,14 @@ public override void _Process(double delta) { }
 			// var tile = baseLayer.GetCellTileData(_tileSetAtlasPos);
 			// if (IsInstanceValid(tile))
 				// GD.Print(tile.GetCustomData("TerrainType"));
+				
+					// h.terrainType = TerrainType.SETTLEMENT;
 			// }
+		// if atlas_coords == 
+						//	terrainTextures = new Dictionary<TerrainType, Vector2I>
+						//	{
+						//	{ TerrainType.SETTLEMENT, new Vector2I(0, 0) },
+		
 
 		// Set tile borders
 		borderLayer.SetCell(new Vector2I(x, y), 0, new Vector2I(0, 0));
