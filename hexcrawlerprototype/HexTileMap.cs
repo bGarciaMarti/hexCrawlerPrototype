@@ -81,13 +81,13 @@ public override void _UnhandledInput(InputEvent @event)
 					GD.Print(mapData[mapCoords]);
 					overlayLayer.SetCell(mapCoords, 0, new Vector2I(0, 1));
 					// overlayLayer.SetCell(currentLocationCell, -1); // unhighlight the first selected hex
-					// journeyData.Add(the hex where mapCoords == coordinates of Hex); //
+					journeyData.Add(the hex where mapCoords == coordinates of Hex); //
 				}
 			}
 		}
 	}
 	else { // the two ends of a journey have been saved
-		axial_linedraw(journeyData);
+		FindPathFromAToB(journeyData[0],journeyData[1]); // axial_linedraw(journeyData);
 		GD.Print(journeyData);
 	}
 }
@@ -155,28 +155,28 @@ public float lerp(double a, double b, double t) {
 	   a + (b - a) * t, which is what I usually write */
 }
 
-function axial_lerp(a, b, t) { // for hexes
-	return Hex(Vector2I coords) {
-		this.coordinates =
-			 (lerp(a.X, b.X, t),
-			lerp(a.Y, b.Y, t) );
-			}
-}
-
-public void axial_linedraw(List<Hex> journey) {
-	Hex current = (journey[1]);
-	var N = axial_distance(journey[0],journey[1]);
-	while (current != journey[0]){
+//public void axial_linedraw(List<Hex> journey) {
+	//Hex current = (journey[1]);
+	//var N = axial_distance(journey[0],journey[1]);
+	//while (current != journey[0]){
 // 		journey.Add(current)
 		//current = came_from[current]
-	}
+	//}
 	// Vector2I mapCoords = new Vector2I(-1, -1);
 	// Hex h = new Hex(new Vector2I(x, y));
-	for (int i = 0; i < N; i++) {
-		var t = 1.0/N * i;
-		journey.Add(axial_round(axial_lerp(journeyData[0], journeyData[1], t)));
+	//for (int i = 0; i < N; i++) {
+		//var t = 1.0/N * i;
+		// journey.Add(axial_round(axial_lerp(journeyData[0], journeyData[1], t)));
+	//}
+//}
+
+public List<Hex> FindPathFromAToB(Hex Start, Hex Goal) //A* algorithm basically
+	{	GD.Print("FindPathFromAToB called...");
+		Vector2I current = new Vector2I(-1, -1);
+		List<Hex> visitedHexes = new List<Hex>();
+		return visitedHexes;
 	}
-}
+	
 
 public Vector2 MapToLocal(Vector2I coords) {
 	return baseLayer.MapToLocal(coords);
