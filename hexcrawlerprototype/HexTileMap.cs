@@ -74,14 +74,14 @@ public override void _UnhandledInput(InputEvent @event)
 {	if (journeyData.Count < 2)
 	{ 
 		if (@event is InputEventMouseButton mouse) 
-		{
+		{	
 			Vector2I mapCoords = baseLayer.LocalToMap(ToLocal(GetGlobalMousePosition()));
 			if (mapCoords.X >= 0 && mapCoords.X < width && mapCoords.Y >= 0 && mapCoords.Y < height) {// keep click in bounds of the map
 				if (mouse.ButtonMask == MouseButtonMask.Left) {
 					GD.Print(mapData[mapCoords]);
 					overlayLayer.SetCell(mapCoords, 0, new Vector2I(0, 1));
-					// overlayLayer.SetCell(currentLocationCell, -1); // unhighlight the first selected hex
-					journeyData.Add(the hex where mapCoords == coordinates of Hex); //
+					// journeyData.Add(Hex.coordinates )
+					journeyData.Add(mapData[mapCoords]); //
 				}
 			}
 		}
@@ -174,6 +174,9 @@ public List<Hex> FindPathFromAToB(Hex Start, Hex Goal) //A* algorithm basically
 	{	GD.Print("FindPathFromAToB called...");
 		Vector2I current = new Vector2I(-1, -1);
 		List<Hex> visitedHexes = new List<Hex>();
+		
+		
+		
 		return visitedHexes;
 	}
 	
