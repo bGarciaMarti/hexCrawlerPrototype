@@ -29,7 +29,7 @@ public class Hex
    {
 	   return $"Coordinates: ({this.coordinates.X}, {this.coordinates.Y}) Terrain type: {this.terrainType} Has been visited: {this.hasVisited})";
    }
-}
+} // end of public class Hex
 
 public partial class HexTileMap : Node2D
 {
@@ -37,11 +37,49 @@ public partial class HexTileMap : Node2D
   public int width = 46;
   [Export]
   public int height = 51;
+  [Export]
 
   // Map data
   TileMapLayer baseLayer, borderLayer, overlayLayer;
   Dictionary<Vector2I, Hex> mapData;
   Dictionary<TerrainType, Vector2I> terrainTextures;
+
+  public static readonly Vector2I[] oddr_direction_differences_even = new []
+	{
+		new Vector2I(1, 0), //east
+		new Vector2I(0, -1), // north-east
+		new Vector2I(-1, -1), // north-west
+		new Vector2I(-1, 0), // west
+		new Vector2I(-1, 0), // south-west
+		new Vector2I(0, 1) // south-east
+	};
+  public static readonly Vector2I[] oddr_direction_differences_odd = new []
+	{
+		new Vector2I(1, 0), //east
+		new Vector2I(1, -1), // north-east
+		new Vector2I(0, -1), // north-west
+		new Vector2I(-1, 0), // west
+		new Vector2I(0, +1), // south-west
+		new Vector2I(1, 1) // south-east
+	};
+  public static readonly Vector2I[] oddr_direction_differences_diagonals = new []
+	{
+		new Vector2I(0, -2), //north
+		new Vector2I(1, -1), // north-east
+		new Vector2I(-2, -1), // north-west
+		new Vector2I(0, +2), // south
+		new Vector2I(-2, 1), // south-west
+		new Vector2I(1,1) // south-east
+	};
+	
+  public IEnumerable<Vector2I> Neighbors(Vector2I id)
+	{	Vector2I[] DIRS = oddr_direction_differences_even;
+		
+		foreach (var dir in DIRS) {
+			Vector2I next = new Vector2I(id.X + dir.X, id.Y + dir.Y);
+				yield return next;
+		}
+	}
 
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
@@ -65,9 +103,52 @@ public partial class HexTileMap : Node2D
 	};
 	
 	GenerateTerrain();
-  }
+  } // end of public partial class HexTileMap : Node2D
 
-List<Hex> journeyData = new List<Hex>(); // create an empty list
+// A* needs only a MapData and a location type L, and does *not*
+// have to be a grid. However, in the example code I am using a grid.
+public interface MapData<L>
+{
+	double Cost(Vector2I a, Vector2I b);
+	IEnumerable<Vector2I> Neighbors(Vector2I id);
+}
+
+public class AStarSearch // https://www.redblobgames.com/pathfinding/a-star/implementation.html#csharp
+{
+	public Dictionary<Vector2I, Vector2I> cameFrom
+		= new Dictionary<Vector2I, Vector2I>();
+	public Dictionary<Vector2I, double> costSoFar
+		= new Dictionary<Vector2I, double>();
+
+	// Note: a generic version of A* would abstract over Location and
+	// also Heuristic
+	static public double Heuristic(Vector2I a, Vector2I b)
+	{
+		return Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
+	} // end of Heuristic
+	
+	public AStarSearch(MapData<Vector2I> graph, Vector2I start, Vector2I goal)
+	{
+		var frontier = new PriorityQueue<Vector2I, double>();
+		frontier.Enqueue(start, 0);
+		
+		cameFrom[start] = start;
+		costSoFar[start] = 0;
+		
+		while (frontier.Count > 0)
+		{
+			var current = frontier.Dequeue();
+			if (current.Equals(goal))
+			{
+				break;
+			}
+			foreach (var next in graph.Neighbors(current))
+			{}
+		}
+	} // end of AStarSearch
+} // end of public class AStarSearch
+
+List<Vector2I> journeyData = new List<Vector2I>(); // create an empty list
 // interactivity
 // if input has not already been consumed by another element
 public override void _UnhandledInput(InputEvent @event)
@@ -81,14 +162,17 @@ public override void _UnhandledInput(InputEvent @event)
 					GD.Print(mapData[mapCoords]);
 					overlayLayer.SetCell(mapCoords, 0, new Vector2I(0, 1));
 					// journeyData.Add(Hex.coordinates )
-					journeyData.Add(mapData[mapCoords]); //
+					journeyData.Add(mapCoords); //
 				}
 			}
 		}
 	}
 	else { // the two ends of a journey have been saved
-		FindPathFromAToB(journeyData[0],journeyData[1]); // axial_linedraw(journeyData);
-		GD.Print(journeyData);
+		// var astar = new AStarSearch(HexTileMap, journeyData[0],journeyData[1]);
+
+		// DrawGrid(grid, astar);
+		// FindPathFromAToB(journeyData[0],journeyData[1]); // axial_linedraw(journeyData);
+		//GD.Print(journeyData);
 	}
 }
 
@@ -132,7 +216,6 @@ public int axial_distance(Vector2I a, Vector2I b)
 		  + Math.Abs(a.X + a.Y - b.X - b.Y)
 		  + Math.Abs(a.Y - b.Y)) / 2;
 }
-
 public Vector2 axial_round (double x, double y) {
   int xgrid = Convert.ToInt32(Math.Round(x));
   int ygrid = Convert.ToInt32(Math.Round(y));
@@ -149,12 +232,6 @@ public Vector2 axial_round (double x, double y) {
 		}
 }
 
-public float lerp(double a, double b, double t) {
-	return (float) (a * (1-t) + b * t);
-	/* better for floating point precision than
-	   a + (b - a) * t, which is what I usually write */
-}
-
 //public void axial_linedraw(List<Hex> journey) {
 	//Hex current = (journey[1]);
 	//var N = axial_distance(journey[0],journey[1]);
@@ -169,16 +246,6 @@ public float lerp(double a, double b, double t) {
 		// journey.Add(axial_round(axial_lerp(journeyData[0], journeyData[1], t)));
 	//}
 //}
-
-public List<Hex> FindPathFromAToB(Hex Start, Hex Goal) //A* algorithm basically
-	{	GD.Print("FindPathFromAToB called...");
-		Vector2I current = new Vector2I(-1, -1);
-		List<Hex> visitedHexes = new List<Hex>();
-		
-		
-		
-		return visitedHexes;
-	}
 	
 
 public Vector2 MapToLocal(Vector2I coords) {
