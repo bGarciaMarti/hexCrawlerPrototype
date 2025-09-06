@@ -21,6 +21,8 @@ public class Hex
   {
 	this.coordinates = coords;
   }
+  public IEnumerable<Vector2I> Neighbors;
+// public List<Hex> GetNeighbors(Hex CenterHex)
   
   public bool hasVisited = false;
 
@@ -72,14 +74,17 @@ public partial class HexTileMap : Node2D
 		new Vector2I(1,1) // south-east
 	};
 	
-  public IEnumerable<Vector2I> Neighbors(Vector2I id)
-	{	Vector2I[] DIRS = oddr_direction_differences_even;
-		
+	public static IEnumerable<Hex> Neighbors(Hex CenterHex) {
+		Vector2I[] DIRS = parity(Convert.ToInt32(CenterHex.coordinates.X))? oddr_direction_differences_odd: oddr_direction_differences_even;
 		foreach (var dir in DIRS) {
-			Vector2I next = new Vector2I(id.X + dir.X, id.Y + dir.Y);
+			Vector2I neighborCoords = new Vector2I(CenterHex.coordinates.X + dir.X, CenterHex.coordinates.Y + dir.Y);
+			// if (neighborCoords.X >= 0 && neighborCoords.X < width && neighborCoords.Y >= 0 && neighborCoords.Y < height) {// keep in bounds of the map
+				Hex next = new Hex(neighborCoords);
+				// if (InBounds(next) && Passable(next)) {
 				yield return next;
-		}
-	}
+			// }
+		}	
+}
 
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
@@ -103,52 +108,11 @@ public partial class HexTileMap : Node2D
 	};
 	
 	GenerateTerrain();
+	
   } // end of public partial class HexTileMap : Node2D
 
-// A* needs only a MapData and a location type L, and does *not*
-// have to be a grid. However, in the example code I am using a grid.
-public interface MapData<L>
-{
-	double Cost(Vector2I a, Vector2I b);
-	IEnumerable<Vector2I> Neighbors(Vector2I id);
-}
 
-public class AStarSearch // https://www.redblobgames.com/pathfinding/a-star/implementation.html#csharp
-{
-	public Dictionary<Vector2I, Vector2I> cameFrom
-		= new Dictionary<Vector2I, Vector2I>();
-	public Dictionary<Vector2I, double> costSoFar
-		= new Dictionary<Vector2I, double>();
-
-	// Note: a generic version of A* would abstract over Location and
-	// also Heuristic
-	static public double Heuristic(Vector2I a, Vector2I b)
-	{
-		return Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
-	} // end of Heuristic
-	
-	public AStarSearch(MapData<Vector2I> graph, Vector2I start, Vector2I goal)
-	{
-		var frontier = new PriorityQueue<Vector2I, double>();
-		frontier.Enqueue(start, 0);
-		
-		cameFrom[start] = start;
-		costSoFar[start] = 0;
-		
-		while (frontier.Count > 0)
-		{
-			var current = frontier.Dequeue();
-			if (current.Equals(goal))
-			{
-				break;
-			}
-			foreach (var next in graph.Neighbors(current))
-			{}
-		}
-	} // end of AStarSearch
-} // end of public class AStarSearch
-
-List<Vector2I> journeyData = new List<Vector2I>(); // create an empty list
+List<Hex> journeyData = new List<Hex>(); // create an empty list
 // interactivity
 // if input has not already been consumed by another element
 public override void _UnhandledInput(InputEvent @event)
@@ -162,17 +126,13 @@ public override void _UnhandledInput(InputEvent @event)
 					GD.Print(mapData[mapCoords]);
 					overlayLayer.SetCell(mapCoords, 0, new Vector2I(0, 1));
 					// journeyData.Add(Hex.coordinates )
-					journeyData.Add(mapCoords); //
+					journeyData.Add(mapData[mapCoords]); //
 				}
 			}
 		}
 	}
-	else { // the two ends of a journey have been saved
-		// var astar = new AStarSearch(HexTileMap, journeyData[0],journeyData[1]);
-
-		// DrawGrid(grid, astar);
-		// FindPathFromAToB(journeyData[0],journeyData[1]); // axial_linedraw(journeyData);
-		//GD.Print(journeyData);
+	else {
+		var astar = new AStarSearch(journeyData[0].coordinates, journeyData[1].coordinates);
 	}
 }
 
@@ -210,7 +170,71 @@ public void GenerateTerrain()
 	  } 
 	}
 } // end of GenerateTerrain
-  
+ 
+// Function to find the parity
+static bool parity(int x)
+{	// Rightmost bit of y holds the parity value
+	int y = x ^ (x >> 1);
+		y = y ^ (y >> 2);
+		y = y ^ (y >> 4);
+		y = y ^ (y >> 8);
+		y = y ^ (y >> 16);
+		
+	// if (y&1) is 1 then parity is odd else even
+	if ((y & 1) > 0)
+		return true;
+	return false;
+}
+
+public class AStarSearch
+{	// Dictionary<Vector2I, Hex> mapData;
+	public Dictionary<Vector2I, Hex> cameFrom
+		= new Dictionary<Vector2I, Hex>();
+	public Dictionary<Vector2I, double> costSoFar
+		= new Dictionary<Vector2I, double>();
+
+	static public double Heuristic(Vector2I a, Vector2I b)
+	{
+		return Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
+	}
+	//	public Dictionary<Hex, int> DijkstraAlgo(Hex Start)
+	public AStarSearch(Vector2I start, Vector2I goal)
+	{
+		var frontier = new PriorityQueue<Hex, double>();
+		Hex h = new Hex(new Vector2I(start.X, start.Y));
+		frontier.Enqueue(h, 0);
+		
+		cameFrom[start] = h;
+		costSoFar[start] = 0;
+		double costOfAnyHexes = 1.0;
+		
+		while (frontier.Count > 0)
+		{
+			var current = frontier.Dequeue();
+			if (current.Equals(goal))
+			{
+				break;
+			}
+			
+			IEnumerable<Hex> neighbors = Neighbors(h);
+			foreach (var next in neighbors)
+			{   
+				double newCost = costSoFar[current.coordinates] + costOfAnyHexes;
+				if (!costSoFar.ContainsKey(next.coordinates) || newCost < costSoFar[next.coordinates])
+				{
+					//GD.Print (Heuristic(next.coordinates, goal) );
+					
+					double priority = costOfAnyHexes + Heuristic(next.coordinates, goal);
+					// Hex shortesth = neighbors.Aggregate((minItem, nextItem) => minItem.Score < nextItem.Score ? minItem : nextItem);
+					frontier.Enqueue(next, priority);
+					cameFrom[next.coordinates] = current;
+					GD.Print (current);
+				}
+			}
+		}
+	}
+}
+
 public int axial_distance(Vector2I a, Vector2I b)
 {	return (Math.Abs(a.X - b.X) 
 		  + Math.Abs(a.X + a.Y - b.X - b.Y)
@@ -231,22 +255,6 @@ public Vector2 axial_round (double x, double y) {
 		return new Vector2I (xgrid, dy);
 		}
 }
-
-//public void axial_linedraw(List<Hex> journey) {
-	//Hex current = (journey[1]);
-	//var N = axial_distance(journey[0],journey[1]);
-	//while (current != journey[0]){
-// 		journey.Add(current)
-		//current = came_from[current]
-	//}
-	// Vector2I mapCoords = new Vector2I(-1, -1);
-	// Hex h = new Hex(new Vector2I(x, y));
-	//for (int i = 0; i < N; i++) {
-		//var t = 1.0/N * i;
-		// journey.Add(axial_round(axial_lerp(journeyData[0], journeyData[1], t)));
-	//}
-//}
-	
 
 public Vector2 MapToLocal(Vector2I coords) {
 	return baseLayer.MapToLocal(coords);
