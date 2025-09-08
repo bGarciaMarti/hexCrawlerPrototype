@@ -211,24 +211,25 @@ public class AStarSearch
 		while (frontier.Count > 0)
 		{
 			var current = frontier.Dequeue();
+			
 			if (current.Equals(goal))
 			{
 				break;
 			}
 			
 			IEnumerable<Hex> neighbors = Neighbors(h);
-			foreach (var next in neighbors)
+			// Hex shortesth = neighbors.Aggregate((minItem, nextItem) => minItem.Score < nextItem.Score ? minItem : nextItem);
+			foreach (var neighbor in neighbors)
 			{   
 				double newCost = costSoFar[current.coordinates] + costOfAnyHexes;
-				if (!costSoFar.ContainsKey(next.coordinates) || newCost < costSoFar[next.coordinates])
+				if (!costSoFar.ContainsKey(neighbor.coordinates) || newCost < costSoFar[neighbor.coordinates])
 				{
-					//GD.Print (Heuristic(next.coordinates, goal) );
-					
-					double priority = costOfAnyHexes + Heuristic(next.coordinates, goal);
+					costSoFar[neighbor.coordinates] = newCost;
+					double priority = costOfAnyHexes + Heuristic(neighbor.coordinates, goal);
 					// Hex shortesth = neighbors.Aggregate((minItem, nextItem) => minItem.Score < nextItem.Score ? minItem : nextItem);
-					frontier.Enqueue(next, priority);
-					cameFrom[next.coordinates] = current;
-					GD.Print (current);
+					GD.Print(neighbor, priority);
+					frontier.Enqueue(neighbor, priority);
+					cameFrom[new Vector2I(neighbor.coordinates.X,neighbor.coordinates.Y)] = current;
 				}
 			}
 		}
