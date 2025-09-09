@@ -211,9 +211,11 @@ public class AStarSearch
 		while (frontier.Count > 0)
 		{
 			var current = frontier.Dequeue();
+			GD.Print("current == ",current);
 			
 			if (current.Equals(goal))
 			{
+				GD.Print("YOU'VE REACHED THE GOAL");
 				break;
 			}
 			
@@ -225,11 +227,14 @@ public class AStarSearch
 				if (!costSoFar.ContainsKey(neighbor.coordinates) || newCost < costSoFar[neighbor.coordinates])
 				{
 					costSoFar[neighbor.coordinates] = newCost;
+					GD.Print("costSoFar[neighbor.coordinates] == ", costSoFar[neighbor.coordinates]);
 					double priority = costOfAnyHexes + Heuristic(neighbor.coordinates, goal);
 					// Hex shortesth = neighbors.Aggregate((minItem, nextItem) => minItem.Score < nextItem.Score ? minItem : nextItem);
-					GD.Print(neighbor, priority);
+					GD.Print("neighbor, priority == ",neighbor, priority);
 					frontier.Enqueue(neighbor, priority);
-					cameFrom[new Vector2I(neighbor.coordinates.X,neighbor.coordinates.Y)] = current;
+					cameFrom[neighbor.coordinates] = current;
+					{GD.Print("cameFrom[neighbor.coordinates] == ", cameFrom[neighbor.coordinates]);}
+					
 				}
 			}
 		}
