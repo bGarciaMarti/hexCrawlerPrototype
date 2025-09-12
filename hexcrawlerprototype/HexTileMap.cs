@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic; // DICT
+using System.Linq; // Aggregate
 
 public enum TerrainType { 
 	PLAINS = 0b_0000_0000,  // 0
@@ -21,8 +22,6 @@ public class Hex
   {
 	this.coordinates = coords;
   }
-  public IEnumerable<Vector2I> Neighbors;
-// public List<Hex> GetNeighbors(Hex CenterHex)
   
   public bool hasVisited = false;
 
@@ -46,46 +45,39 @@ public partial class HexTileMap : Node2D
   Dictionary<Vector2I, Hex> mapData;
   Dictionary<TerrainType, Vector2I> terrainTextures;
 
-  public static readonly Vector2I[] oddr_direction_differences_even = new []
-	{
+  public static readonly Vector2I[] oddr_direction_differences_even = new [] {
 		new Vector2I(1, 0), //east
 		new Vector2I(0, -1), // north-east
 		new Vector2I(-1, -1), // north-west
 		new Vector2I(-1, 0), // west
-		new Vector2I(-1, 0), // south-west
-		new Vector2I(0, 1) // south-east
-	};
-  public static readonly Vector2I[] oddr_direction_differences_odd = new []
-	{
+		new Vector2I(-1, 1), // south-west
+		new Vector2I(0, 1) }; // south-east
+  public static readonly Vector2I[] oddr_direction_differences_odd = new [] {
 		new Vector2I(1, 0), //east
 		new Vector2I(1, -1), // north-east
 		new Vector2I(0, -1), // north-west
 		new Vector2I(-1, 0), // west
 		new Vector2I(0, +1), // south-west
-		new Vector2I(1, 1) // south-east
-	};
-  public static readonly Vector2I[] oddr_direction_differences_diagonals = new []
-	{
+		new Vector2I(1, 1) }; // south-east
+  public static readonly Vector2I[] oddr_direction_differences_diagonals = new [] {
 		new Vector2I(0, -2), //north
 		new Vector2I(1, -1), // north-east
 		new Vector2I(-2, -1), // north-west
 		new Vector2I(0, +2), // south
 		new Vector2I(-2, 1), // south-west
-		new Vector2I(1,1) // south-east
-	};
+		new Vector2I(1,1) }; // south-east
 	
-	public static IEnumerable<Hex> Neighbors(Hex CenterHex) {
-		Vector2I[] DIRS = parity(Convert.ToInt32(CenterHex.coordinates.X))? oddr_direction_differences_odd: oddr_direction_differences_even;
-		foreach (var dir in DIRS) {
-			Vector2I neighborCoords = new Vector2I(CenterHex.coordinates.X + dir.X, CenterHex.coordinates.Y + dir.Y);
-			// if (neighborCoords.X >= 0 && neighborCoords.X < width && neighborCoords.Y >= 0 && neighborCoords.Y < height) {// keep in bounds of the map
-				Hex next = new Hex(neighborCoords);
-				// if (InBounds(next) && Passable(next)) {
-				yield return next;
-			// }
-		}	
+  public static IEnumerable<Hex> Neighbors(Hex CenterHex, Dictionary<Vector2I, Hex> sillyMapData) {
+	Vector2I[] DIRS = parity(Convert.ToInt32(CenterHex.coordinates.X))? oddr_direction_differences_odd: oddr_direction_differences_even;
+	foreach (var dir in DIRS) {
+		Vector2I neighborCoords = new Vector2I(CenterHex.coordinates.X + dir.X, CenterHex.coordinates.Y + dir.Y);
+		if (sillyMapData.ContainsKey(neighborCoords)) {
+			yield return sillyMapData[neighborCoords];
+		} else {
+			yield break;
+		}
+	}	
 }
-
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
   {
@@ -125,14 +117,13 @@ public override void _UnhandledInput(InputEvent @event)
 				if (mouse.ButtonMask == MouseButtonMask.Left) {
 					GD.Print(mapData[mapCoords]);
 					overlayLayer.SetCell(mapCoords, 0, new Vector2I(0, 1));
-					// journeyData.Add(Hex.coordinates )
 					journeyData.Add(mapData[mapCoords]); //
 				}
 			}
 		}
 	}
 	else {
-		var astar = new AStarSearch(journeyData[0].coordinates, journeyData[1].coordinates);
+		var astar = new AStarSearch(journeyData[0].coordinates, journeyData[1].coordinates, mapData);	
 	}
 }
 
@@ -198,7 +189,7 @@ public class AStarSearch
 		return Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
 	}
 	//	public Dictionary<Hex, int> DijkstraAlgo(Hex Start)
-	public AStarSearch(Vector2I start, Vector2I goal)
+	public AStarSearch(Vector2I start, Vector2I goal, Dictionary<Vector2I, Hex> thisMapsData)
 	{
 		var frontier = new PriorityQueue<Hex, double>();
 		Hex h = new Hex(new Vector2I(start.X, start.Y));
@@ -209,32 +200,29 @@ public class AStarSearch
 		double costOfAnyHexes = 1.0;
 		
 		while (frontier.Count > 0)
-		{
+		{	
 			var current = frontier.Dequeue();
 			GD.Print("current == ",current);
 			
-			if (current.Equals(goal))
+			if (current.coordinates.Equals(goal))
 			{
-				GD.Print("YOU'VE REACHED THE GOAL");
-				break;
+				GD.Print("WE HAVE A ROUTE TO FOLLOW");
+				return;
 			}
 			
-			IEnumerable<Hex> neighbors = Neighbors(h);
-			// Hex shortesth = neighbors.Aggregate((minItem, nextItem) => minItem.Score < nextItem.Score ? minItem : nextItem);
+			IEnumerable<Hex> neighbors = Neighbors(current, thisMapsData); //, width, height);
 			foreach (var neighbor in neighbors)
 			{   
 				double newCost = costSoFar[current.coordinates] + costOfAnyHexes;
-				if (!costSoFar.ContainsKey(neighbor.coordinates) || newCost < costSoFar[neighbor.coordinates])
+				Hex quickestNeighbor = neighbors.Aggregate((quickestNeighbor, neighbor)
+				  => (Heuristic(quickestNeighbor.coordinates, goal)) < (Heuristic(neighbor.coordinates, goal)) 
+				  ? quickestNeighbor : neighbor);
+				if (!costSoFar.ContainsKey(quickestNeighbor.coordinates) || newCost < costSoFar[quickestNeighbor.coordinates])
 				{
-					costSoFar[neighbor.coordinates] = newCost;
-					GD.Print("costSoFar[neighbor.coordinates] == ", costSoFar[neighbor.coordinates]);
-					double priority = costOfAnyHexes + Heuristic(neighbor.coordinates, goal);
-					// Hex shortesth = neighbors.Aggregate((minItem, nextItem) => minItem.Score < nextItem.Score ? minItem : nextItem);
-					GD.Print("neighbor, priority == ",neighbor, priority);
-					frontier.Enqueue(neighbor, priority);
-					cameFrom[neighbor.coordinates] = current;
-					{GD.Print("cameFrom[neighbor.coordinates] == ", cameFrom[neighbor.coordinates]);}
-					
+					costSoFar[quickestNeighbor.coordinates] = newCost;
+					double priority = costOfAnyHexes + Heuristic(quickestNeighbor.coordinates, goal);
+					frontier.Enqueue(quickestNeighbor, priority);
+					cameFrom[quickestNeighbor.coordinates] = current;
 				}
 			}
 		}
