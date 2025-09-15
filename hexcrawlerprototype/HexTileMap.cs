@@ -105,11 +105,11 @@ public partial class HexTileMap : Node2D
 
 
 List<Hex> journeyData = new List<Hex>(); // create an empty list to keep the hexes in the journey
-
+bool planning = true;
 // interactivity
 // if input has not already been consumed by another element
 public override void _UnhandledInput(InputEvent @event)
-{	if (journeyData.Count < 2)
+{	if ((journeyData.Count < 2) & (planning == true))
 	{ 
 		if (@event is InputEventMouseButton mouse) 
 		{	
@@ -123,12 +123,18 @@ public override void _UnhandledInput(InputEvent @event)
 			}
 		}
 	}
-	else {
+	else if (planning == true) {
+		
 		var astar = new AStarSearch(journeyData[0].coordinates, journeyData[1].coordinates, mapData);	
 		Dictionary<Vector2I, Hex>.ValueCollection values = astar.cameFrom.Values;  
 		foreach (Hex h in values)
 		{  
 			journeyData.Add(h);
+			planning = false;
+		}
+		foreach (Hex h in journeyData)
+		{   overlayLayer.SetCell(h.coordinates, 0, new Vector2I(0, 1));
+			GD.Print(h);
 		}
 	}
 }
