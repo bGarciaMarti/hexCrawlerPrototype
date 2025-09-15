@@ -104,7 +104,8 @@ public partial class HexTileMap : Node2D
   } // end of public partial class HexTileMap : Node2D
 
 
-List<Hex> journeyData = new List<Hex>(); // create an empty list
+List<Hex> journeyData = new List<Hex>(); // create an empty list to keep the hexes in the journey
+
 // interactivity
 // if input has not already been consumed by another element
 public override void _UnhandledInput(InputEvent @event)
@@ -124,6 +125,11 @@ public override void _UnhandledInput(InputEvent @event)
 	}
 	else {
 		var astar = new AStarSearch(journeyData[0].coordinates, journeyData[1].coordinates, mapData);	
+		Dictionary<Vector2I, Hex>.ValueCollection values = astar.cameFrom.Values;  
+		foreach (Hex h in values)
+		{  
+			journeyData.Add(h);
+		}
 	}
 }
 
@@ -179,16 +185,13 @@ static bool parity(int x)
 
 public class AStarSearch
 {	// Dictionary<Vector2I, Hex> mapData;
-	public Dictionary<Vector2I, Hex> cameFrom
-		= new Dictionary<Vector2I, Hex>();
-	public Dictionary<Vector2I, double> costSoFar
-		= new Dictionary<Vector2I, double>();
+	public Dictionary<Vector2I, Hex> cameFrom = new Dictionary<Vector2I, Hex>();
+	public Dictionary<Vector2I, double> costSoFar = new Dictionary<Vector2I, double>();
 
-	static public double Heuristic(Vector2I a, Vector2I b)
-	{
+	static public double Heuristic(Vector2I a, Vector2I b) {
 		return Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
 	}
-	//	public Dictionary<Hex, int> DijkstraAlgo(Hex Start)
+
 	public AStarSearch(Vector2I start, Vector2I goal, Dictionary<Vector2I, Hex> thisMapsData)
 	{
 		var frontier = new PriorityQueue<Hex, double>();
@@ -202,12 +205,12 @@ public class AStarSearch
 		while (frontier.Count > 0)
 		{	
 			var current = frontier.Dequeue();
-			GD.Print("current == ",current);
+			// GD.Print("current == ",current);
 			
 			if (current.coordinates.Equals(goal))
 			{
 				GD.Print("WE HAVE A ROUTE TO FOLLOW");
-				return;
+				break;
 			}
 			
 			IEnumerable<Hex> neighbors = Neighbors(current, thisMapsData); //, width, height);
